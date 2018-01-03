@@ -132,7 +132,7 @@ function accMuls() {
 	if(arguments.length > 0) {
 		result = 1;
 		for(var i = 0; i < arguments.length; i++) {
-			result = accMul(arguments[0],result);
+			result = accMul(arguments[i],result);
 		}
 	}
 	return result;

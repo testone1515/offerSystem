@@ -3,6 +3,7 @@ var edit = new Vue({
 	data: {
 		paramModel: {
 			name: '', //图号/名称
+			textureId: "", //材料编号
 			materialUnitPrice: 0, //材料单价,
 			materialDensity: 0, //材料密度
 			materialThickness: 0, //材料厚度
@@ -23,22 +24,51 @@ var edit = new Vue({
 			packUnitPrice: '', //包装价格
 			logisticsCompany: '', //物流公司
 			freight: '', //运费
-			bend: '', //折弯
-
+			bend: '' //折弯
 		},
-		name: "",
 		textureList: [],
 		thicknessList: [],
 		surfaceList: [],
 		packList: []
 	},
-	watch: {//观察者
-		paramModel: function(val) {
-			getmaterialPrice(edit.paramModel);
+	/**
+	 * 属性计算
+	 */
+	computed: {
+		/**
+		 * 计算材料价格
+		 */
+		materialPrice: function() {
+			return getmaterialPrice(this.paramModel);
+		},
+		/**
+		 * 计算穿孔价格
+		 */
+		boreUnitPrice: function() {
+			var value = getBoreUnitPrice(this.paramModel);
+			this.paramModel.boreUnitPrice = value;
+			return value;
+		},
+		/**
+		 * 计算切割价格
+		 */
+		cutUnitPrice: function() {
+			var value = getCutUnitPrice(this.paramModel);
+			this.paramModel.cutUnitPrice = value;
+			return value;
+		},
+		/**
+		 * 计算激光价格
+		 */
+		laserPrice:function(){
+			var value = getLaserPrice(this.paramModel);
+			this.paramModel.laserPrice = value;
+			return value;
 		}
-		
 	}
 });
+
+var textureThickUnitPrice = []; //单价
 
 layui.use(['layer', 'form', 'fsDatagrid', 'element'], function() {
 	var layer = layui.layer;
@@ -58,6 +88,7 @@ layui.use(['layer', 'form', 'fsDatagrid', 'element'], function() {
 	//监听下拉框材质
 	form.on('select(texture)', function(data) {
 		var model = getModel(edit.textureList, "id", data.value);
+		edit.paramModel.textureId = data.value;
 		edit.paramModel.materialUnitPrice = model.unitPrice;
 		edit.paramModel.materialDensity = model.density;
 	});
@@ -83,10 +114,14 @@ layui.use(['layer', 'form', 'fsDatagrid', 'element'], function() {
 		edit.thicknessList = req.thickness;
 		edit.surfaceList = req.surface;
 		edit.packList = req.pack;
+		edit.paramModel.textureId = req.texture[0].id;
 		edit.paramModel.materialUnitPrice = req.texture[0].unitPrice;
+		edit.paramModel.materialDensity = req.texture[0].density;
 		edit.paramModel.materialThickness = req.thickness[0];
 		edit.paramModel.surfaceType = req.surface[0].type;
 		edit.paramModel.pack = req.pack[0];
+		textureThickUnitPrice = req.textureThickUnitPrice;
+
 	}).then(function() {
 		form.render('select');
 	});
@@ -106,8 +141,71 @@ function getmaterialPrice(model) {
 	var materialDensity = model.materialDensity - 0.0;
 	var materialUnitPrice = model.materialUnitPrice - 0.0;
 	result = accMuls(materialThickness, materialLength, materialWidth, materialDensity, 1.1, materialUnitPrice);
-	console.log(result);
 	result = accDiv(result, 1000000);
+	result = result - 0.0;
+	result = result.toFixed(2);
+	return result;
+}
+
+/**
+ * 获取穿孔和切割单价实体
+ * @param {Object} model
+ */
+function GetTextureThickUnitPriceModel(model) {
+	var id = model.textureId;
+	var materialThickness = model.materialThickness - 0.0;
+	var json;
+	$.each(textureThickUnitPrice, function(i, item) {
+		if(item.textureId == id && item.thickness) {
+			json = item;
+		}
+	});
+	return json;
+}
+
+/**
+ * 获取穿孔单价
+ * @param {Object} model
+ */
+function getBoreUnitPrice(model) {
+	var json = GetTextureThickUnitPriceModel(model);
+	var result = 0;
+	if(json) {
+		result = json.boreUnitPrice;
+	}
 	console.log(result);
 	return result;
+}
+
+/**
+ * 获取切割单价
+ * @param {Object} model
+ */
+function getCutUnitPrice(model) {
+	var json = GetTextureThickUnitPriceModel(model);
+	var result = 0;
+	if(json) {
+		result = json.cutUnitPrice;
+	}
+	console.log(result);
+	return result;
+}
+
+/**
+ * 获取激光价格
+ * @param {Object} model
+ */
+function getLaserPrice(model) {
+	var boreNumber = model.boreNumber - 0.0; //穿孔数量
+	var cutLength = model.cutLength - 0.0; //切割长度
+	var boreUnitPrice = model.boreUnitPrice - 0.0; //穿孔单价
+	var cutUnitPrice = model.cutUnitPrice - 0.0; //切割单价
+	var boreresult = accMul(boreNumber, cutUnitPrice);
+	var cutresult = accMul(cutLength, cutUnitPrice);
+	var result = accAdd(boreresult, cutresult);
+	result = result - 0.0;
+	result = result.toFixed(2);
+	result = result - 0.0;
+	return result;
+	//“穿孔数量”X“穿孔单价”+“切割单价”X“切割数量”
 }
