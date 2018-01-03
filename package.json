@@ -1,0 +1,10 @@
+{
+   "name":"offerSystem",
+	"version":"0.0.1",
+	"description":"江阴市宇诺自动化设备有限公司报价系统",
+	"private": true,
+	"homepage":"index.html",
+    "scripts": {
+        "start": "http-server -a 127.0.0.1 -p 8088 -o http://127.0.0.1:8088/"
+    }
+}

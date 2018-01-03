@@ -1,0 +1,45 @@
+{
+	"texture": [
+		{
+			"id": 1,
+			"name": "SUS304",
+			"unitPrice": 20,
+			"density":1
+		}, {
+			"id": 2,
+			"name": "SUS201",
+			"unitPrice": 21,
+			"density":1
+		}, {
+			"id": 3,
+			"name": "Q235",
+			"unitPrice": 22,
+			"density":1
+		}, {
+			"id": 4,
+			"name": "SECC",
+			"unitPrice": 23,
+			"density":1
+		}
+	],
+	"thickness": [0.8,1,1.2,1.5,2,3],
+	"surface":[
+	           {
+	   			   "name": "喷塑",
+	   			   "type": 0
+	           },
+	           {
+	   			   "name": "镀锌",
+	   			   "type": 1
+	           },
+	           {
+	   			   "name": "发黑",
+	   			   "type": 1
+	           },
+	           {
+	   			   "name": "拉丝",
+	   			   "type": 1
+	           }
+	],
+	"pack":["蜂窝纸","PP打包带","软包装","镀铝膜","铁芯线","铝箔复合膜","真空镀铝纸"]
+}

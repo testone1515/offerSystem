@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>报价</title>
+		<script src="../../js/common/head.js"></script>
+		<style>
+			.layui-form-label {
+				width: 100px;
+			}
+		</style>
+		<script src="../../lib/vue/vue.js"></script>
+		<script src="../../js/common/until.js"></script>
+	</head>
+
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row layui-col-space1">
+				<div class="layui-col-md12">
+					<div class="layui-row grid-demo">
+						<div class="layui-col-md3">
+							<div class="layui-btn-group">
+								<button class="layui-btn" id="add"><i class="layui-icon">&#xe654;</i>增加</button>
+								<button class="layui-btn"><i class="layui-icon">&#xe654;</i>导出</button>
+								<button class="layui-btn"><i class="layui-icon">&#xe654;</i>打印</button>
+							</div>
+						</div>
+						<div class="layui-col-md12">
+							<table id="fsDatagrid" lay-filter="fsDatagrid" class="fsDatagrid"></table>
+							<div class="fsDatagridCols">
+								<p type="numbers" title="#" />
+								<p field="name" title="日期" width="150" sort="true" />
+								<p field="type" title="图号/名称" width="150" />
+								<p field="city" title="单价" width="100" />
+								<p field="sex" title="数量" width="100" />
+								<p field="state" title="小计" width="100" />
+								<p field="area1" title="重量" width="100" />
+								<p field="createdTime" title="含税价" width="100" />
+								<p field="modifiedTime" title="销售价" width="100" />
+								<p field="modifiedTime" title="报价人" width="120" />
+								<p field="modifiedTime" title="备注" width="180" />
+								<p fixed="right" align="center" toolbar="#barDemo" title="操作" width="180" />
+							</div>
+							<script type="text/html" id="barDemo">
+								<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="top" topUrl="views/datagrid2/one.html" topMode="readonly" topWidth="800px" topHeight="600px" topTitle="查看demo" inputs="id:">查看</a>
+								<a class="layui-btn layui-btn-xs" lay-event="top" topUrl="views/datagrid2/one.html" topMode="edit" topWidth="800px" topHeight="600px" topTitle="编辑demo" inputs="id:">编辑</a>
+								<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="submit" url="/fsbus/1002" isConfirm="1" confirmMsg="是否确定删除当前记录？" inputs="id:">删除</a>
+							</script>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+		<!--添加-->
+		<div id="edit" style="display: none;">
+			<div style="height: 15px;"></div>
+			<!--添加-->
+			<form class="layui-form" id="vue-edit">
+				<div class="layui-form-item">
+					<label class="layui-form-label">图号/名称</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.name" placeholder="请输入图号/名称" class="layui-input">
+					</div>
+					<label class="layui-form-label">材料材质</label>
+					<div class="layui-input-inline">
+						<select name="interest" lay-search lay-filter="texture">
+							<option v-for="option in textureList" v-bind:value="option.id" >{{option.name}}</option>
+						</select>
+					</div>
+					<div class="layui-form-mid layui-word-aux">单价:{{paramModel.materialUnitPrice}}</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">材料厚度</label>
+					<div class="layui-input-inline">
+						<select name="interest"  lay-filter="thickness" v-model="paramModel.materialThickness">
+							<option  v-for="option in thicknessList" v-bind:value="option" >{{option}}</option>
+						</select>
+					</div>
+					<label class="layui-form-label">材料规格</label>
+					<div class="layui-input-inline" style="width: 90px;">
+						<input type="text" v-model="paramModel.materialLength" placeholder="请输入长" style="width: 90px;" class="layui-input">
+					</div>
+					<div class="layui-input-inline" style="width: 90px;">
+						<input type="text" v-model="paramModel.materialWidth" placeholder="请输入宽" style="width: 90px;" class="layui-input">
+					</div>
+					<label class="layui-form-label">材料价格</label>
+					<div class="layui-input-inline">
+						<input type="text" v-bind:value="paramModel.materialPrice" readonly="readonly" disabled="disabled" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">穿孔数量</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.boreNumber" placeholder="请输入激光穿孔数量" class="layui-input">
+					</div>
+					<label class="layui-form-label">切割长度</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.cutLength" placeholder="请输入激光切割长度" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">穿孔单价</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.boreUnitPrice" readonly="readonly" disabled="disabled" class="layui-input">
+					</div>
+					<label class="layui-form-label">切割单价</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.cutUnitPrice"  disabled="disabled" readonly="readonly" class="layui-input">
+					</div>
+					<label class="layui-form-label">激光价格</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.laserPrice"  readonly="readonly" disabled="disabled" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">折弯</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.bend"  placeholder="请输入折弯" class="layui-input">
+					</div>
+					<label class="layui-form-label">焊接</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.weld" placeholder="请输入焊接" class="layui-input">
+					</div>
+
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">机加工</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.machining" placeholder="请输入机加工" class="layui-input">
+					</div>
+					<label class="layui-form-label">阔孔/压铆/攻牙</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.enlargeOr3" placeholder="请输入阔孔/压铆/攻牙" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">表面处理</label>
+					<div class="layui-input-inline">
+						<select name="interest" lay-search lay-filter="surface" v-model="paramModel.surfaceType">
+							<option v-for="option in surfaceList" v-bind:value="option.type" >{{option.name}}</option>
+						</select>
+					</div>
+					<label class="layui-form-label">单价</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.surfaceUnitPrice" placeholder="请输入表面处理单价" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">包装材料</label>
+					<div class="layui-input-inline">
+						<select name="interest" lay-search lay-filter="pack" v-model="paramModel.pack">
+							<option v-for="option in packList" v-bind:value="option" >{{option}}</option>
+						</select>
+					</div>
+					<label class="layui-form-label">包装价格</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.packUnitPrice" placeholder="请输入包装价格" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">物流公司</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.logisticsCompany" placeholder="请输入物流公司" class="layui-input">
+					</div>
+					<label class="layui-form-label">运费</label>
+					<div class="layui-input-inline">
+						<input type="text" v-model="paramModel.freight" placeholder="请输入运费" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn layui-center" lay-filter="*">立即保存</button>
+					</div>
+				</div>
+				<!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
+			</form>
+		</div>
+		<script src="script/offer.js"></script>
+	</body>
+
+</html>
