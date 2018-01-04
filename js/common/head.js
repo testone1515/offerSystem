@@ -24,6 +24,10 @@ var config = [{
 		url: '/css/fs.css'
 	},
 	{
+		type: 'style',
+		url: '/lib/icons-custom/iconfont.css'
+	},
+	{
 		type: 'script',
 		url: '/lib/jquery/jquery-3.2.1.min.js'
 	},
