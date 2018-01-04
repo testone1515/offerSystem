@@ -27,7 +27,7 @@ var edit = new Vue({
 			logisticsCompany: '', //物流公司
 			freight: '', //运费
 			bend: '', //折弯
-			collectUnitPrice: '', //汇总单价
+			collectUnitPrice: 0, //汇总单价
 			weight: 0, //重量
 			numbersss: '', //数量
 			user: '', //申报人

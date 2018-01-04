@@ -134,6 +134,25 @@
 					<div class="layui-input-inline">
 						<input type="text" lay-verify="required|number" v-model="paramModel.numbers" placeholder="请输入总数量" class="layui-input">
 					</div>
+					<div class="layui-form-mid layui-word-aux">汇总单价:{{paramModel.collectUnitPrice}}&nbsp;小计{{paramModel.subtotal}}</div>
+					<label class="layui-form-label">含税价</label>
+					<div class="layui-input-inline">
+						<input type="text" lay-verify="required|number" v-model="paramModel.taxPrice" placeholder="请输入含税价" class="layui-input">
+					</div>
+				</div>
+					<div class="layui-form-item">
+					<label class="layui-form-label">销售价</label>
+					<div class="layui-input-inline">
+						<input type="text" lay-verify="required|number" v-model="paramModel.salePrice" placeholder="请输入运费" class="layui-input">
+					</div>
+					<label class="layui-form-label">报价人</label>
+					<div class="layui-input-inline">
+						<input type="text" lay-verify="required" v-model="paramModel.user" placeholder="请输入报价人" class="layui-input">
+					</div>
+					<label class="layui-form-label">备注</label>
+					<div class="layui-input-inline">
+						<input type="text"  v-model="paramModel.remark" placeholder="请输入含税价" class="layui-input">
+					</div>
 				</div>
 				<div class="layui-form-item">
 					<div class="layui-input-block">
