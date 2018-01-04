@@ -137,3 +137,16 @@ function accMuls() {
 	}
 	return result;
 }
+
+/**
+ * 多个浮点数求和
+ */
+function accAdds() {
+	var result = 0;
+	if(arguments.length > 0) {
+		for(var i = 0; i < arguments.length; i++) {
+			result = accAdd(arguments[i],result);
+		}
+	}
+	return result;
+}

@@ -115,10 +115,10 @@
 		  "cutUnitPrice":10
 	  },
 	  {
-		  "textureId":2,
+		  "textureId":4,
 		  "thickness":0.8,
-		  "boreUnitPrice":10,
-		  "cutUnitPrice":5
+		  "boreUnitPrice":11,
+		  "cutUnitPrice":6
 	  }, 
 	  {
 		  "textureId":4,
@@ -147,20 +147,28 @@
 	 ],
 	"surface":[
 	           {
+	        	   "id":1,
 	   			   "name": "喷塑",
-	   			   "type": 0
+	   			   "type": 0,
+	   			   "unitPrice":15
 	           },
 	           {
+	        	   "id":2,
 	   			   "name": "镀锌",
-	   			   "type": 1
+	   			   "type": 1,
+	   			   "unitPrice":0
 	           },
 	           {
+	        	   "id":3,
 	   			   "name": "发黑",
-	   			   "type": 1
+	   			   "type": 1,
+	   			   "unitPrice":0
 	           },
 	           {
+	        	   "id":4,
 	   			   "name": "拉丝",
-	   			   "type": 1
+	   			   "type": 1,
+	   			   "unitPrice":0
 	           }
 	],
 	"pack":["蜂窝纸","PP打包带","软包装","镀铝膜","铁芯线","铝箔复合膜","真空镀铝纸"]
