@@ -31,9 +31,9 @@ var edit = new Vue({
 			weight: 0, //重量
 			numbersss: '', //数量
 			user: '', //申报人
-			taxPrice: 0, //含税价
+			taxPrice: '', //含税价
 			subtotal: 0, //小计
-			salePrice: 0, //销售价
+			salePrice: '', //销售价
 			remark: "" //备注
 		},
 		textureList: [],
@@ -305,10 +305,10 @@ function getCollectUnitPrice(model) {
 	var weld = model.weld - 0.0;
 	var enlargeOr3 = model.enlargeOr3 - 0.0;
 	var machining = model.machining - 0.0;
-	var surfaceUnitPrice = model.surfaceUnitPrice - 0.0;
+	var surfacePrice = model.surfacePrice - 0.0;
 	var packUnitPrice = model.packUnitPrice - 0.0;
 	var freight = model.freight - 0.0;
-	var result = accAdds(materialPrice, laserPrice, bend, weld, enlargeOr3, machining, surfaceUnitPrice, packUnitPrice, freight);
+	var result = accAdds(materialPrice, laserPrice, bend, weld, enlargeOr3, machining, surfacePrice, packUnitPrice, freight);
 	result = result - 0.0;
 	result = result.toFixed(2);
 	result = result - 0.0;

@@ -9,7 +9,7 @@ layui.use(['layer', 'form', 'fsDatagrid', 'element'], function() {
 			type: 2,
 			maxmin: true,
 			title: "添加材料",
-			area: ['1100px', '630px'],
+			area: ['1200px', '630px'],
 			zIndex: layer.zIndex, //重点1
 			content: '/view/offer/edit.html',
 			success: function(layero) {
