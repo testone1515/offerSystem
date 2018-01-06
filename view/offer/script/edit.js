@@ -29,7 +29,7 @@ var edit = new Vue({
 			bend: '', //折弯
 			collectUnitPrice: 0, //汇总单价
 			weight: 0, //重量
-			numbersss: '', //数量
+			numbers: '', //数量
 			user: '', //申报人
 			taxPrice: '', //含税价
 			subtotal: 0, //小计
@@ -136,16 +136,6 @@ layui.use(['layer', 'form', 'element'], function() {
 	var form = layui.form;
 	var element = layui.element;
 
-	//点击事件
-	$(document).on('click', '#add', function() {
-		layer.open({
-			type: 1,
-			title: "添加材料",
-			area: '1200px',
-			content: $('#edit')
-		});
-	});
-
 	//监听下拉框材质
 	form.on('select(texture)', function(data) {
 		//console.log("监听下拉框材质");
@@ -174,9 +164,7 @@ layui.use(['layer', 'form', 'element'], function() {
 	});
 
 	form.on('submit(save)', function(data) {
-		console.log(data.elem) //被执行事件的元素DOM对象，一般为button对象
-		console.log(data.form) //被执行提交的form对象，一般在存在form标签时才会返回
-		console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
+		parent.vueTable.addRow(edit.paramModel);
 		return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
 	});
 
@@ -193,7 +181,7 @@ layui.use(['layer', 'form', 'element'], function() {
 			setTimeout(function() {
 				edit.paramModel = JSON.parse(item);
 				initCaculate();
-			}, 1500);
+			}, 1100);
 
 		} else {
 			edit.paramModel.textureId = req.texture[0].id;

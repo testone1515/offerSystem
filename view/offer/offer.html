@@ -11,6 +11,9 @@
 		</style>
 		<script src="../../lib/vue/vue.js"></script>
 		<script src="../../js/common/until.js"></script>
+		<script src="../../lib/moment/moment.js"></script>
+		<script src="../../lib/moment/zh.js"></script>
+		<script src="../../lib/jquery/jQuery.print.min.js"></script>
 	</head>
 
 	<body>
@@ -21,31 +24,46 @@
 						<div class="layui-col-md3">
 							<div class="layui-btn-group">
 								<button class="layui-btn" id="add"><i class="layui-icon">&#xe654;</i>增加</button>
-								<button class="layui-btn" function="top" topUrl="/view/offer/edit.html" topMode="add" topWidth="1200px" topHeight="600px" topTitle="新增demo"><i class="iconfont">&#xe600;</i>导出</button>
-								<button class="layui-btn"><i class="iconfont">&#xe639;</i>打印</button>
+								<button class="layui-btn"  id="excel"><i class="iconfont">&#xe600;</i>导出</button>
+								<button class="layui-btn" id="printer"><i class="iconfont">&#xe639;</i>打印</button>
 							</div>
 						</div>
-						<div class="layui-col-md12">
-							<table id="fsDatagrid" lay-filter="fsDatagrid" class="fsDatagrid"></table>
-							<div class="fsDatagridCols">
-								<p type="numbers" title="#" />
-								<p field="name" title="日期" width="150" sort="true" />
-								<p field="type" title="图号/名称" width="150" />
-								<p field="city" title="单价" width="100" />
-								<p field="sex" title="数量" width="100" />
-								<p field="state" title="小计" width="100" />
-								<p field="area1" title="重量" width="100" />
-								<p field="createdTime" title="含税价" width="100" />
-								<p field="modifiedTime" title="销售价" width="100" />
-								<p field="modifiedTime" title="报价人" width="120" />
-								<p field="modifiedTime" title="备注" width="180" />
-								<p fixed="right" align="center" toolbar="#barDemo" title="操作" width="180" />
-							</div>
-							<script type="text/html" id="barDemo">
-								<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="top" topUrl="views/datagrid2/one.html" topMode="readonly" topWidth="800px" topHeight="600px" topTitle="查看demo" inputs="id:">查看</a>
-								<a class="layui-btn layui-btn-xs" lay-event="top" topUrl="views/datagrid2/one.html" topMode="edit" topWidth="800px" topHeight="600px" topTitle="编辑demo" inputs="id:">编辑</a>
-								<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="submit" url="/fsbus/1002" isConfirm="1" confirmMsg="是否确定删除当前记录？" inputs="id:">删除</a>
-							</script>
+						<div class="layui-col-md12" id="print-area">
+							<table class="layui-table" id="lay-table">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>日期</th>
+										<th>图号/名称</th>
+										<th>单价</th>
+										<th>数量</th>
+										<th>小计</th>
+										<th>重量</th>
+										<th>含税价</th>
+										<th>销售价</th>
+										<th>报价人</th>
+										<th>备注</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="(item,index) in list">
+										<td>{{index+1}}</td>
+										<td>{{item.date}}</td>
+										<td>{{item.name}}</td>
+										<td>{{item.collectUnitPrice}}</td>
+										<td>{{item.numbers}}</td>
+										<td>{{item.subtotal}}</td>
+										<td>{{item.weight}}</td>
+										<td>{{item.taxPrice}}</td>
+										<td>{{item.salePrice}}</td>
+										<td>{{item.user}}</td>
+										<td>{{item.remark}}</td>
+									</tr>
+									<tr v-if="list.length <=0">
+										<td colspan="11" align="center">暂无数据</td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
 					</div>
 

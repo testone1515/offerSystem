@@ -155,15 +155,21 @@
 					</div>
 				</div>
 				<div class="layui-form-item">
+					<label class="layui-form-label">重量</label>
+					<div class="layui-input-inline">
+						<input type="text" v-bind:value="weight" readonly="readonly" disabled="disabled" class="layui-input">
+					</div>
 					<label class="layui-form-label">备注</label>
 					<div class="layui-input-inline">
-						<textarea rows="400" style="width: 400px;height: 80px;" cols="80" v-model="paramModel.remark" placeholder="请输入备注" class="layui-input"></textarea>
+						<textarea rows="400" style="width: 250px;height:50px;" cols="80" v-model="paramModel.remark" placeholder="请输入备注" class="layui-input"></textarea>
 					</div>
-				</div>
-				<div class="layui-form-item">
+					<label class="layui-form-label"></label>
 					<div class="layui-input-block">
 						<button class="layui-btn layui-center" lay-submit lay-filter="save">立即保存</button>
 					</div>
+				</div>
+				<div class="layui-form-item">
+					
 				</div>
 				<!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
 			</form>
